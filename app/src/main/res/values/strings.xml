@@ -2,5 +2,12 @@
     <string name="app_name">SlubJuzZa</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="about_application_verion">Wersja aplikacji : 1</string>
+    <string name="about_developer_label">Twórca:</string>
+    <string name="about_developer_name">Maciej Krawczyk</string>
+    <string name="about_developer_email">mkandrodev@gmail.com</string>
+
+    <string name="action_about">O aplikacji</string>
+
 </resources>
