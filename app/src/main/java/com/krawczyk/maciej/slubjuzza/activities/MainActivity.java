@@ -1,6 +1,8 @@
 package com.krawczyk.maciej.slubjuzza.activities;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.krawczyk.maciej.slubjuzza.AlarmSettings;
 import com.krawczyk.maciej.slubjuzza.R;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +29,8 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private static final String MyPreferences = "MyPrefs" ;
+    public static final String BROADCAST_NOTIFICATION_FROM_ALARM = "com.krawczyk.maciej.slubjuzza.alarm";
+
     private static final String WeddingYear = "WeddingYear" ;
     private static final String WeddingMonth = "WeddingMonth" ;
     private static final String WeddingDay = "WeddingDay" ;
@@ -50,6 +55,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Calendar calendar;
+
+    private void setWeatherAlarm(){
+        AlarmSettings.setWeatherAlarmUnderTemp(this, true);
+
+        Intent intent = new Intent(BROADCAST_NOTIFICATION_FROM_ALARM);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        if (calendar != null){
+            AlarmManager alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+
+            Calendar currentDate = Calendar.getInstance();
+            currentDate.setTimeInMillis(System.currentTimeMillis());
+
+            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, currentDate.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, alarmIntent);
+        }
+    }
+
+    private void cancelAlarm(){
+        AlarmSettings.setWeatherAlarmUnderTemp(this, false);
+        Intent intent = new Intent(BROADCAST_NOTIFICATION_FROM_ALARM);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        AlarmManager alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+
+        alarmMgr.cancel(alarmIntent);
+    }
 
     private String getYearsToWedding() {
         Calendar currentDate = Calendar.getInstance();
@@ -228,9 +260,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 tpd.show();
                 break;
             case (R.id.buttonTurnOnAlarm):
+                if (!AlarmSettings.isTimeAlarmSet(this)){
+                    setWeatherAlarm();
+                }
                 Toast.makeText(this, R.string.toast_alarm_turn_on, Toast.LENGTH_SHORT).show();
                 break;
             case (R.id.buttonTurnoffAlarm):
+                cancelAlarm();
                 Toast.makeText(this, R.string.toast_alarm_turn_off, Toast.LENGTH_SHORT).show();
                 break;
         }
