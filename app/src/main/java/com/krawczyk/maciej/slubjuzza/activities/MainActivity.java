@@ -1,4 +1,4 @@
-package com.krawczyk.maciej.slubjuzza;
+package com.krawczyk.maciej.slubjuzza.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -17,6 +17,9 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.krawczyk.maciej.slubjuzza.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
