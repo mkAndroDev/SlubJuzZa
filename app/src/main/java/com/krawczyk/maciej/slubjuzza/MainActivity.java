@@ -28,6 +28,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String WeddingDay = "WeddingDay" ;
     private static final String WeddingHour = "WeddingHour" ;
     private static final String WeddingMinutes = "WeddingMinutes" ;
+    private final static int MILLIS_IN_SECOND = 1000;
+    private final static int SECONDS_IN_MINUTE = 60;
+    private final static int MINUTES_IN_HOUR = 60;
+    private final static int HOURS_IN_DAY = 24;
+    private final static int DAYS_IN_YEAR = 365;
+    private final static long MILLISECONDS_IN_YEAR = (long) MILLIS_IN_SECOND * SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY * DAYS_IN_YEAR;
 
     private final SimpleDateFormat simpleDateFormatDays = new SimpleDateFormat("DD");
     private final SimpleDateFormat simpleDateFormatHours = new SimpleDateFormat("HH:mm:ss");
@@ -37,24 +43,64 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Chronometer chronometerToWedding;
     private TextView textViewDate;
     private TextView textViewTime;
+    private TextView textViewToWedding;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Calendar calendar;
 
+    private String getYearsToWedding() {
+        Calendar currentDate = Calendar.getInstance();
+        long yearToWeddingInMillis = calendar.getTimeInMillis() - currentDate.getTimeInMillis();
+        long yearToWedding = calendar.get(Calendar.YEAR) - currentDate.get(Calendar.YEAR);
+
+        Calendar test = Calendar.getInstance();
+        test.setTimeInMillis(yearToWedding);
+        String yearsToWedding = "";
+
+        if (yearToWedding == 0){
+            yearsToWedding = "";
+        } else if (yearToWedding == 1 && yearToWeddingInMillis > MILLISECONDS_IN_YEAR){
+            yearsToWedding = yearToWedding + " rok ";
+        } else if (yearToWedding >= 2 && yearToWedding <= 4){
+            yearsToWedding = yearToWedding + " lata ";
+        } else if (yearToWedding >= 5){
+            yearsToWedding = yearToWedding + " lat ";
+        }
+        return yearsToWedding;
+    }
+
     private void startChronometer(){
         takeTimeFromSP();
 
-        chronometerToWedding.setBase(calendar.getTimeInMillis());
-        chronometerToWedding.start();
+        Calendar currentTime = Calendar.getInstance();
 
-        chronometerToWedding.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                Calendar now = Calendar.getInstance();
-                long toWedding = calendar.getTimeInMillis() - now.getTimeInMillis();
-                chronometer.setText(simpleDateFormatDays.format(toWedding) + " " + getString(R.string.days) + " " + simpleDateFormatHours.format(toWedding));
+        if (calendar != null){
+            if (calendar.getTimeInMillis() > currentTime.getTimeInMillis()){
+                chronometerToWedding.setVisibility(View.VISIBLE);
+                textViewToWedding.setVisibility(View.VISIBLE);
+
+                chronometerToWedding.setBase(calendar.getTimeInMillis());
+                chronometerToWedding.start();
+
+                chronometerToWedding.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                    @Override
+                    public void onChronometerTick(Chronometer chronometer) {
+                        Calendar currentDate = Calendar.getInstance();
+                        long toWedding = calendar.getTimeInMillis() - currentDate.getTimeInMillis();
+
+                        if (simpleDateFormatDays.format(toWedding).equals("01")) {
+                            chronometer.setText(getYearsToWedding() + "\n" + simpleDateFormatHours.format(toWedding));
+                        } else {
+                            chronometer.setText(getYearsToWedding() + simpleDateFormatDays.format(toWedding) + " " + getString(R.string.days) + "\n" + simpleDateFormatHours.format(toWedding));
+                        }
+                    }
+                });
+            } else {
+                chronometerToWedding.setVisibility(View.INVISIBLE);
+                textViewToWedding.setVisibility(View.INVISIBLE);
+                Toast.makeText(this, "Wyznaczona data już minęła!", Toast.LENGTH_SHORT).show();
             }
-        });
+        }
     }
 
     private void takeTimeFromSP(){
@@ -64,10 +110,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mHour = sharedPreferences.getInt(WeddingHour, 0);
         mMinute = sharedPreferences.getInt(WeddingMinutes, 0);
 
-        if (mYear != 0 && mHour != 0){
-            textViewDate.setText(mYear + "-" + mMonth + "-" + mDay);
-            textViewTime.setText(mHour + ":" + mMinute);
+        int mMonthForShow = mMonth + 1;
 
+        if (mYear != 0 && mHour != 0){
+            textViewDate.setText(mDay + "-" + mMonthForShow + "-" + mYear);
+            if (mMinute < 10){
+                textViewTime.setText(mHour + ":" + "0" + mMinute);
+            } else {
+                textViewTime.setText(mHour + ":" + mMinute);
+            }
             calendar = Calendar.getInstance();
             calendar.set(mYear, mMonth, mDay, mHour, mMinute, 0);
         }
@@ -88,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         chronometerToWedding = (Chronometer) findViewById(R.id.chronometerToWedding);
         textViewDate = (TextView) findViewById(R.id.textViewDate);
         textViewTime = (TextView) findViewById(R.id.textViewTime);
+        textViewToWedding = (TextView) findViewById(R.id.textViewToWedding);
 
         startChronometer();
 
