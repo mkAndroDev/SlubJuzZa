@@ -150,6 +150,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        chronometerToWedding.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        chronometerToWedding.stop();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         ActionBar actionBar = getSupportActionBar();
