@@ -36,13 +36,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String WeddingDay = "WeddingDay" ;
     private static final String WeddingHour = "WeddingHour" ;
     private static final String WeddingMinutes = "WeddingMinutes" ;
-    private static final String OneDayPattern = "01";
+    private static final String OneDayPattern = "365";
 
     private final static int MILLIS_IN_SECOND = 1000;
     private final static int SECONDS_IN_MINUTE = 60;
     private final static int MINUTES_IN_HOUR = 60;
     private final static int HOURS_IN_DAY = 24;
     private final static int DAYS_IN_YEAR = 365;
+    private final static long MILLISECONDS_IN_HOUR = (long) MILLIS_IN_SECOND * SECONDS_IN_MINUTE * MINUTES_IN_HOUR;
+    private final static long MILLISECONDS_IN_DAY = (long) MILLIS_IN_SECOND * SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY;
     private final static long MILLISECONDS_IN_YEAR = (long) MILLIS_IN_SECOND * SECONDS_IN_MINUTE * MINUTES_IN_HOUR * HOURS_IN_DAY * DAYS_IN_YEAR;
 
     private final SimpleDateFormat simpleDateFormatDays = new SimpleDateFormat("DD");
@@ -57,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Calendar calendarSetTime;
+    private Calendar calendarSetTimeInGoodFormat;
 
     private void setWeatherAlarm(){
         AlarmSettings.setWeatherAlarmUnderTemp(this, true);
@@ -116,19 +119,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 chronometerToWedding.setVisibility(View.VISIBLE);
                 textViewToWedding.setVisibility(View.VISIBLE);
 
-                chronometerToWedding.setBase(calendarSetTime.getTimeInMillis());
+                calendarSetTimeInGoodFormat = Calendar.getInstance();
+                calendarSetTimeInGoodFormat.setTimeInMillis(calendarSetTime.getTimeInMillis() - MILLISECONDS_IN_HOUR - MILLISECONDS_IN_DAY);
+
+                chronometerToWedding.setBase(calendarSetTimeInGoodFormat.getTimeInMillis());
                 chronometerToWedding.start();
 
                 chronometerToWedding.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
                     @Override
                     public void onChronometerTick(Chronometer chronometer) {
                         Calendar currentDate = Calendar.getInstance();
-                        long toWedding = calendarSetTime.getTimeInMillis() - currentDate.getTimeInMillis();
+                        long toWedding = calendarSetTimeInGoodFormat.getTimeInMillis() - currentDate.getTimeInMillis();
 
                         if (simpleDateFormatDays.format(toWedding).equals(OneDayPattern)) {
-                            chronometer.setText(getYearsToWedding(calendarSetTime) + "\n" + simpleDateFormatHours.format(toWedding));
+                            chronometer.setText(getYearsToWedding(calendarSetTimeInGoodFormat) + "\n" + simpleDateFormatHours.format(toWedding));
                         } else {
-                            chronometer.setText(getYearsToWedding(calendarSetTime) + simpleDateFormatDays.format(toWedding) + " " + getString(R.string.days) + "\n" + simpleDateFormatHours.format(toWedding));
+                            chronometer.setText(getYearsToWedding(calendarSetTimeInGoodFormat) + simpleDateFormatDays.format(toWedding) + " " + getString(R.string.days) + "\n" + simpleDateFormatHours.format(toWedding));
                         }
                     }
                 });
