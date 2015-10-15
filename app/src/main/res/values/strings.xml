@@ -23,5 +23,6 @@
     <string name="it_is_today">To już dziś!</string>
 
     <string name="days"> dni </string>
+    <string name="hours"> godzin </string>
 
 </resources>

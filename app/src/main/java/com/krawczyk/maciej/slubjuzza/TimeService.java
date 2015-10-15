@@ -23,6 +23,9 @@ public class TimeService extends IntentService {
     private static final String WeddingMinutes = "WeddingMinutes" ;
     private static final String OneDayPattern = "01";
 
+    final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD");
+    final SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("HH");
+
     private int mYear, mMonth, mDay, mHour, mMinute;
 
     private Calendar calendarSavedTime;
@@ -50,19 +53,20 @@ public class TimeService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         calendarSavedTime = Calendar.getInstance();
         takeTimeFromSP();
-        calendarSavedTime.set(mYear, mMonth, mDay, mHour-1, mMinute, 0);
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD");
+        calendarSavedTime.set(mYear, mMonth, mDay, mHour, mMinute, 0);
+
         Calendar now = Calendar.getInstance();
         long toTrip = calendarSavedTime.getTimeInMillis() - now.getTimeInMillis();
-        String stay = simpleDateFormat.format(toTrip);
+        String stayDays = simpleDateFormat.format(toTrip);
+        String stayHours = simpleTimeFormat.format(toTrip);
 
         String toShow;
         String toShowYear = MainActivity.getYearsToWedding(calendarSavedTime);
 
-        if (stay.equals(OneDayPattern) && toShowYear.equals("")){
-            toShow = getString(R.string.it_is_today);
+        if (stayDays.equals(OneDayPattern) && toShowYear.equals("")){
+            toShow = stayHours + " " + getString(R.string.hours) + "!";
         } else {
-            toShow = toShowYear + stay + " " + getString(R.string.days) + "!";
+            toShow = toShowYear + stayDays + " " + getString(R.string.days) + "!";
         }
 
         intent = new Intent(this, MainActivity.class);

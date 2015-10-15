@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     startChronometer();
                                 }
                             }
-                        }, mHour, mMinute, false);
+                        }, mHour, mMinute, true);
                 tpd.show();
                 break;
             case (R.id.buttonTurnOnAlarm):
