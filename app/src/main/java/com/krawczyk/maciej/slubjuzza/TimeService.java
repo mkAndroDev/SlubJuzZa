@@ -21,13 +21,11 @@ public class TimeService extends IntentService {
     private static final String WeddingDay = "WeddingDay" ;
     private static final String WeddingHour = "WeddingHour" ;
     private static final String WeddingMinutes = "WeddingMinutes" ;
+    private static final String OneDayPattern = "01";
 
     private int mYear, mMonth, mDay, mHour, mMinute;
 
-    private SharedPreferences sharedPreferences;
-    private Calendar calendar;
-
-    private Notification timeNotification = null;
+    private Calendar calendarSavedTime;
 
     public TimeService(){
         super("TimeReceiver");
@@ -42,27 +40,36 @@ public class TimeService extends IntentService {
         mMinute = sharedPreferences.getInt(WeddingMinutes, 0);
 
         if (mYear != 0 && mHour != 0){
-            calendar = Calendar.getInstance();
-            calendar.set(mYear, mMonth, mDay, mHour, mMinute, 0);
+            calendarSavedTime = Calendar.getInstance();
+            calendarSavedTime.set(mYear, mMonth, mDay, mHour, mMinute, 0);
         }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onHandleIntent(Intent intent) {
-        calendar = Calendar.getInstance();
+        calendarSavedTime = Calendar.getInstance();
         takeTimeFromSP();
-        calendar.set(mYear, mMonth, mDay, mHour-1, mMinute, 00);
+        calendarSavedTime.set(mYear, mMonth, mDay, mHour-1, mMinute, 0);
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD");
         Calendar now = Calendar.getInstance();
-        long toTrip = calendar.getTimeInMillis() - now.getTimeInMillis();
+        long toTrip = calendarSavedTime.getTimeInMillis() - now.getTimeInMillis();
         String stay = simpleDateFormat.format(toTrip);
+
+        String toShow;
+        String toShowYear = MainActivity.getYearsToWedding(calendarSavedTime);
+
+        if (stay.equals(OneDayPattern) && toShowYear.equals("")){
+            toShow = getString(R.string.it_is_today);
+        } else {
+            toShow = toShowYear + stay + " " + getString(R.string.days) + "!";
+        }
 
         intent = new Intent(this, MainActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        timeNotification = new Notification.Builder(this)
+        Notification timeNotification = new Notification.Builder(this)
                 .setContentTitle(getText(R.string.app_name))
-                .setContentText(stay + "dni!").setSmallIcon(R.mipmap.ic_app_icon) //todo dorobić lata itp
+                .setContentText(toShow).setSmallIcon(R.mipmap.ic_app_icon)
                 .setContentIntent(pIntent).build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         timeNotification.flags |= Notification.FLAG_AUTO_CANCEL;
