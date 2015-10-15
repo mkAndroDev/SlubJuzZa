@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             currentDate.setTimeInMillis(System.currentTimeMillis());
 
             alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, currentDate.getTimeInMillis(),
-                    10000, alarmIntent);
+                    AlarmManager.INTERVAL_DAY, alarmIntent);
         }
     }
 
