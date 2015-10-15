@@ -1,10 +1,12 @@
-package com.krawczyk.maciej.slubjuzza;
+package com.krawczyk.maciej.slubjuzza.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.krawczyk.maciej.slubjuzza.R;
 
 public class AboutActivity extends AppCompatActivity {
 

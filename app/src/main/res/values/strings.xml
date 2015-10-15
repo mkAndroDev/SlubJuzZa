@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Ślub już za ...</string>
 
-    <string name="hello_world">Hello world!</string>
-
+    <string name="about_label_base">Ustaw datę i godzinę.\nCiesz się odliczaniem do dnia Twojego ślubu!</string>
+    <string name="about_label_alarm">Włącz alarm i ciesz się powiadomieniami na pasku zadań, które wskażą datę do Twojego ślubu.\nCodziennie o tej samej porze.</string>
     <string name="about_application_verion">Wersja aplikacji : 1</string>
     <string name="about_developer_label">Twórca:</string>
     <string name="about_developer_name">Maciej Krawczyk</string>
@@ -17,6 +17,11 @@
     <string name="button_change_time">Zmień godzinę</string>
     <string name="toast_alarm_turn_on">Włączono alarm!</string>
     <string name="toast_alarm_turn_off">Wyłączono alarm!</string>
+    <string name="toast_alarm_turned_on">Alarm jest już ustawiony!</string>
+    <string name="toast_time_or_hour_not_set">Nie ustawiono daty lub godziny!</string>
+    <string name="alarm_time_passed">Wyznaczona data już minęła!</string>
+    <string name="it_is_today">To już dziś!</string>
+
     <string name="days"> dni </string>
 
 </resources>

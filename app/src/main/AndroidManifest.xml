@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.krawczyk.maciej.slubjuzza" >
 
-    <uses-sdk android:minSdkVersion="15"/>
+    <uses-sdk android:minSdkVersion="16"
+        tools:ignore="GradleOverrides" />
 
     <application
         android:allowBackup="true"
@@ -10,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light">
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +20,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AboutActivity"/>
+
+        <activity android:name=".activities.AboutActivity"/>
+
+        <service android:name=".TimeService" />
+
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="com.krawczyk.maciej.slubjuzza.alarm" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
