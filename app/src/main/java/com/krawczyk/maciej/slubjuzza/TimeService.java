@@ -1,26 +1,31 @@
 package com.krawczyk.maciej.slubjuzza;
 
 import android.annotation.TargetApi;
+import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 
 import com.krawczyk.maciej.slubjuzza.activities.MainActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class TimeService extends IntentService {
 
-    private static final String MyPreferences = "MyPrefs" ;
-    private static final String WeddingYear = "WeddingYear" ;
-    private static final String WeddingMonth = "WeddingMonth" ;
-    private static final String WeddingDay = "WeddingDay" ;
-    private static final String WeddingHour = "WeddingHour" ;
-    private static final String WeddingMinutes = "WeddingMinutes" ;
+    private static final long ONE_DAY = 3600000 * 24;
+
+    private static final String MyPreferences = "MyPrefs";
+    private static final String WeddingYear = "WeddingYear";
+    private static final String WeddingMonth = "WeddingMonth";
+    private static final String WeddingDay = "WeddingDay";
+    private static final String WeddingHour = "WeddingHour";
+    private static final String WeddingMinutes = "WeddingMinutes";
     private static final String OneDayPattern = "01";
 
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD");
@@ -30,11 +35,11 @@ public class TimeService extends IntentService {
 
     private Calendar calendarSavedTime;
 
-    public TimeService(){
+    public TimeService() {
         super("TimeReceiver");
     }
 
-    private void takeTimeFromSP(){
+    private void takeTimeFromSP() {
         SharedPreferences sharedPreferences = getSharedPreferences(MyPreferences, MODE_PRIVATE);
         mYear = sharedPreferences.getInt(WeddingYear, 0);
         mMonth = sharedPreferences.getInt(WeddingMonth, 0);
@@ -42,7 +47,7 @@ public class TimeService extends IntentService {
         mHour = sharedPreferences.getInt(WeddingHour, 0);
         mMinute = sharedPreferences.getInt(WeddingMinutes, 0);
 
-        if (mYear != 0 && mHour != 0){
+        if (mYear != 0 && mHour != 0) {
             calendarSavedTime = Calendar.getInstance();
             calendarSavedTime.set(mYear, mMonth, mDay, mHour, mMinute, 0);
         }
@@ -56,18 +61,27 @@ public class TimeService extends IntentService {
         calendarSavedTime.set(mYear, mMonth, mDay, mHour, mMinute, 0);
 
         Calendar now = Calendar.getInstance();
-        long toTrip = calendarSavedTime.getTimeInMillis() - now.getTimeInMillis();
-        String stayDays = simpleDateFormat.format(toTrip);
-        String stayHours = simpleTimeFormat.format(toTrip);
+        long toWedding = calendarSavedTime.getTimeInMillis() - now.getTimeInMillis();
+
+        if (toWedding < ONE_DAY){
+            AlarmSettings.setWeatherAlarmUnderTemp(this, false);
+            Intent intentForAlarm = new Intent(MainActivity.BROADCAST_NOTIFICATION_FROM_ALARM);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intentForAlarm, 0);
+
+            AlarmManager alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+
+            alarmMgr.cancel(alarmIntent);
+            return;
+        } else {
+            toWedding -= ONE_DAY;
+        }
+
+        String stayDays = simpleDateFormat.format(toWedding);
 
         String toShow;
         String toShowYear = MainActivity.getYearsToWedding(calendarSavedTime);
 
-        if (stayDays.equals(OneDayPattern) && toShowYear.equals("")){
-            toShow = stayHours + " " + getString(R.string.hours) + "!";
-        } else {
-            toShow = toShowYear + stayDays + " " + getString(R.string.days) + "!";
-        }
+        toShow = toShowYear + stayDays + " " + getString(R.string.days) + "!";
 
         intent = new Intent(this, MainActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
