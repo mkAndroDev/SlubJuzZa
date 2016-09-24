@@ -8,7 +8,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 
 import com.krawczyk.maciej.slubjuzza.activities.MainActivity;
@@ -18,20 +17,7 @@ import java.util.Calendar;
 
 public class TimeService extends IntentService {
 
-    private static final long ONE_DAY = 3600000 * 24;
-
-    private static final String MyPreferences = "MyPrefs";
-    private static final String WeddingYear = "WeddingYear";
-    private static final String WeddingMonth = "WeddingMonth";
-    private static final String WeddingDay = "WeddingDay";
-    private static final String WeddingHour = "WeddingHour";
-    private static final String WeddingMinutes = "WeddingMinutes";
-    private static final String OneDayPattern = "01";
-
     final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("DD");
-    final SimpleDateFormat simpleTimeFormat = new SimpleDateFormat("HH");
-
-    private int mYear, mMonth, mDay, mHour, mMinute;
 
     private Calendar calendarSavedTime;
 
@@ -39,41 +25,27 @@ public class TimeService extends IntentService {
         super("TimeReceiver");
     }
 
-    private void takeTimeFromSP() {
-        SharedPreferences sharedPreferences = getSharedPreferences(MyPreferences, MODE_PRIVATE);
-        mYear = sharedPreferences.getInt(WeddingYear, 0);
-        mMonth = sharedPreferences.getInt(WeddingMonth, 0);
-        mDay = sharedPreferences.getInt(WeddingDay, 0);
-        mHour = sharedPreferences.getInt(WeddingHour, 0);
-        mMinute = sharedPreferences.getInt(WeddingMinutes, 0);
-
-        if (mYear != 0 && mHour != 0) {
-            calendarSavedTime = Calendar.getInstance();
-            calendarSavedTime.set(mYear, mMonth, mDay, mHour, mMinute, 0);
-        }
-    }
-
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onHandleIntent(Intent intent) {
         calendarSavedTime = Calendar.getInstance();
-        takeTimeFromSP();
-        calendarSavedTime.set(mYear, mMonth, mDay, mHour, mMinute, 0);
+        UtilsAndConstants utilsAndConstants = new UtilsAndConstants(getApplicationContext());
+        calendarSavedTime = utilsAndConstants.getTimeFromSharedPreferences();
 
         Calendar now = Calendar.getInstance();
         long toWedding = calendarSavedTime.getTimeInMillis() - now.getTimeInMillis();
 
-        if (toWedding < ONE_DAY){
-            AlarmSettings.setWeatherAlarmUnderTemp(this, false);
-            Intent intentForAlarm = new Intent(MainActivity.BROADCAST_NOTIFICATION_FROM_ALARM);
+        if (toWedding < UtilsAndConstants.MILLISECONDS_IN_DAY) {
+            AlarmSettings.setWeddingAlarm(this, false);
+            Intent intentForAlarm = new Intent(UtilsAndConstants.BROADCAST_NOTIFICATION_FROM_ALARM);
             PendingIntent alarmIntent = PendingIntent.getBroadcast(this, 0, intentForAlarm, 0);
 
-            AlarmManager alarmMgr = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+            AlarmManager alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
 
             alarmMgr.cancel(alarmIntent);
             return;
         } else {
-            toWedding -= ONE_DAY;
+            toWedding -= UtilsAndConstants.MILLISECONDS_IN_DAY;
         }
 
         String stayDays = simpleDateFormat.format(toWedding);

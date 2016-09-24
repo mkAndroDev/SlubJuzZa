@@ -12,14 +12,15 @@
     <string name="button_turn_on_label">Włącz alarm</string>
     <string name="button_turn_off_label">Wyłącz alarm</string>
     <string name="text_view_to_wedding">Pozostało:</string>
-    <string name="text_view_current_set_time_label">Ustawiono:</string>
-    <string name="button_change_date">Zmień datę</string>
-    <string name="button_change_time">Zmień godzinę</string>
+    <string name="text_view_current_set_time_label">Twój ślub odbędzie się:</string>
+    <string name="button_change_wedding_date_and_time">Zmień datę i czas</string>
+    <string name="tap_to_edit_message">Dotknij aby zmienić datę lub czas</string>
     <string name="toast_alarm_turn_on">Włączono alarm!</string>
     <string name="toast_alarm_turn_off">Wyłączono alarm!</string>
     <string name="toast_alarm_turned_on">Alarm jest już ustawiony!</string>
     <string name="toast_time_or_hour_not_set">Nie ustawiono daty lub godziny!</string>
     <string name="alarm_time_passed">Wyznaczona data już minęła!</string>
+    <string name="alarm_time_set_to_start_label">Ustaw datę ślubu aby rozpoczać pracę z aplikacją</string>
     <string name="it_is_today">To już dziś!</string>
 
     <string name="days"> dni </string>

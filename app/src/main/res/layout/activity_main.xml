@@ -2,92 +2,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <TextView
         android:id="@+id/textViewToWedding"
-        android:text="@string/text_view_to_wedding"
-        android:textSize="30sp"
-        android:textColor="#0e0e0e"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="@dimen/xlarge_margin"
+        android:text="@string/text_view_to_wedding"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/xlarge_text_size"
+        android:visibility="invisible" />
 
     <Chronometer
         android:id="@+id/chronometerToWedding"
-        android:textSize="30sp"
-        android:visibility="invisible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewToWedding"
         android:layout_centerHorizontal="true"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="@dimen/xlarge_text_size"
+        android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/textViewCurrentSetTimeLabel"
-        android:text="@string/text_view_current_set_time_label"
-        android:textSize="30sp"
-        android:textColor="#0e0e0e"
+        android:id="@+id/textViewSetDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/chronometerToWedding"
-        android:layout_alignRight="@+id/textViewToWedding"
-        android:layout_alignEnd="@+id/textViewToWedding"
-        android:layout_marginTop="40dp" />
-
-    <TextView
-        android:id="@+id/textViewDate"
-        android:textSize="30sp"
-        android:textColor="#0e0e0e"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textViewCurrentSetTimeLabel"
-        android:layout_centerHorizontal="true"/>
-
-    <Button
-        android:id="@+id/buttonChangeDate"
-        android:text="@string/button_change_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textViewDate"
-        android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:id="@+id/textViewTime"
-        android:textSize="30sp"
-        android:textColor="#0e0e0e"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/buttonChangeDate"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/xsmall_margin"
+        android:layout_marginRight="@dimen/xsmall_margin"
+        android:layout_marginTop="@dimen/xlarge_text_size"
+        android:text="@string/alarm_time_set_to_start_label"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/large_text_size" />
 
     <Button
         android:id="@+id/buttonChangeTime"
-        android:text="@string/button_change_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewTime"
-        android:layout_centerHorizontal="true"/>
+        android:layout_above="@+id/linearLayoutButtonsForAlarm"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/large_margin"
+        android:text="@string/button_change_wedding_date_and_time" />
 
-
-    <Button
-        android:id="@+id/buttonTurnOnAlarm"
-        android:text="@string/button_turn_on_label"
-        android:textSize="20sp"
+    <LinearLayout
+        android:id="@id/linearLayoutButtonsForAlarm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/buttonTurnoffAlarm" />
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-    <Button
-        android:id="@+id/buttonTurnoffAlarm"
-        android:text="@string/button_turn_off_label"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+        <Button
+            android:id="@+id/buttonTurnOnAlarm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/button_turn_on_label" />
+
+        <Button
+            android:id="@+id/buttonTurnoffAlarm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="@string/button_turn_off_label" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>

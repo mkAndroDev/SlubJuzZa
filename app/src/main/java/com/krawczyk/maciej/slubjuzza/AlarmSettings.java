@@ -8,7 +8,7 @@ public class AlarmSettings {
     private static final String MyPreferences = "MyPrefs" ;
     private static final String WEDDING_ALARM_FLAG = "WeddingAlarmFlag";
 
-    public static void setWeatherAlarmUnderTemp(Context context, Boolean useWeatherAlarm){
+    public static void setWeddingAlarm(Context context, Boolean useWeatherAlarm){
         SharedPreferences settings = context.getSharedPreferences(MyPreferences, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = settings.edit();
         edit.putBoolean(WEDDING_ALARM_FLAG, useWeatherAlarm).apply();
