@@ -3,6 +3,7 @@ package com.krawczyk.maciej.slubjuzza.activities;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -38,8 +39,6 @@ public class SetDateActivity extends AppCompatActivity implements View.OnClickLi
 
         updateTextViews();
 
-        Toast.makeText(getApplicationContext(), R.string.tap_to_edit_message, Toast.LENGTH_LONG).show();
-
         textViewDate.setOnClickListener(this);
         textViewTime.setOnClickListener(this);
     }
@@ -61,6 +60,19 @@ public class SetDateActivity extends AppCompatActivity implements View.OnClickLi
         }
         About.setVisible(true);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_about) {
+            Intent startAbout = new Intent(this, AboutActivity.class);
+            startActivity(startAbout);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

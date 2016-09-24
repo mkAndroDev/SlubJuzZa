@@ -11,7 +11,7 @@
     <string name="action_about">About app</string>
     <string name="button_turn_on_label">Enable notifications</string>
     <string name="button_turn_off_label">Disable notifications</string>
-    <string name="text_view_to_wedding">To ceremony left::</string>
+    <string name="text_view_to_wedding">To ceremony left:</string>
     <string name="text_view_current_set_time_label">Your wedding is:</string>
     <string name="button_change_wedding_date_and_time">Change date and time</string>
     <string name="tap_to_edit_message">To change date or time tap it</string>
