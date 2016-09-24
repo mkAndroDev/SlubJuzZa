@@ -2,22 +2,22 @@
     <string name="app_name">Ślub już za ...</string>
 
     <string name="about_label_base">Ustaw datę i godzinę.\nCiesz się odliczaniem do dnia Twojego ślubu!</string>
-    <string name="about_label_alarm">Włącz alarm i ciesz się powiadomieniami na pasku zadań, które wskażą datę do Twojego ślubu.\nCodziennie o tej samej porze.</string>
+    <string name="about_label_alarm">Włącz powiadomienia i ciesz się powiadomieniami na pasku zadań, które wskażą datę do Twojego ślubu.\nCodziennie o tej samej porze.</string>
     <string name="about_application_verion">Wersja aplikacji : 2</string>
     <string name="about_developer_label">Twórca:</string>
     <string name="about_developer_name">Maciej Krawczyk</string>
     <string name="about_developer_email">mkandrodev@gmail.com</string>
 
     <string name="action_about">O aplikacji</string>
-    <string name="button_turn_on_label">Włącz alarm</string>
-    <string name="button_turn_off_label">Wyłącz alarm</string>
+    <string name="button_turn_on_label">Włącz powiadomienia</string>
+    <string name="button_turn_off_label">Wyłącz powiadomienia</string>
     <string name="text_view_to_wedding">Pozostało:</string>
     <string name="text_view_current_set_time_label">Twój ślub odbędzie się:</string>
     <string name="button_change_wedding_date_and_time">Zmień datę i czas</string>
     <string name="tap_to_edit_message">Aby zmienić czas lub datę dotkinj jej</string>
-    <string name="toast_alarm_turn_on">Włączono alarm!</string>
-    <string name="toast_alarm_turn_off">Wyłączono alarm!</string>
-    <string name="toast_alarm_turned_on">Alarm jest już ustawiony!</string>
+    <string name="toast_alarm_turn_on">Włączono powiadomienia!</string>
+    <string name="toast_alarm_turn_off">Wyłączono powiadomienia!</string>
+    <string name="toast_alarm_turned_on">Powiadomienia są już ustawione!</string>
     <string name="toast_time_or_hour_not_set">Nie ustawiono daty lub godziny!</string>
     <string name="alarm_time_passed">Wyznaczona data już minęła!</string>
     <string name="alarm_time_set_to_start_label">Ustaw datę ślubu aby rozpoczać pracę z aplikacją</string>

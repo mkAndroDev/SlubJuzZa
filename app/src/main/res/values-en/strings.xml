@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Wedding is in...</string>
+
+    <string name="about_label_base">Set date and tim.\nSee counting down to yours wedding!</string>
+    <string name="about_label_alarm">Set alarm and be happy with notifications on your bar. Everyday you will see how many days left to your big day!</string>
+    <string name="about_application_verion">App version : 2</string>
+    <string name="about_developer_label">Author:</string>
+    <string name="about_developer_name">Maciej Krawczyk</string>
+    <string name="about_developer_email">mkandrodev@gmail.com</string>
+
+    <string name="action_about">About app</string>
+    <string name="button_turn_on_label">Enable notifications</string>
+    <string name="button_turn_off_label">Disable notifications</string>
+    <string name="text_view_to_wedding">To ceremony left::</string>
+    <string name="text_view_current_set_time_label">Your wedding is:</string>
+    <string name="button_change_wedding_date_and_time">Change date and time</string>
+    <string name="tap_to_edit_message">To change date or time tap it</string>
+    <string name="toast_alarm_turn_on">Notifications enabled!</string>
+    <string name="toast_alarm_turn_off">Notifications disabled!</string>
+    <string name="toast_alarm_turned_on">Notifications already enabled!</string>
+    <string name="toast_time_or_hour_not_set">Date or time are not set yet!</string>
+    <string name="alarm_time_passed">Set date already passed!</string>
+    <string name="alarm_time_set_to_start_label">Set date and time as first!</string>
+    <string name="it_is_today">It\'s today!</string>
+
+    <string name="days"> days </string>
+    <string name="hours"> hours </string>
+
+</resources>
