@@ -2,27 +2,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/background_for_app"
     tools:context=".activities.MainActivity">
 
     <TextView
         android:id="@+id/textViewToWedding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/chronometerToWedding"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/xlarge_margin"
         android:text="@string/text_view_to_wedding"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/xlarge_text_size"
         android:visibility="invisible" />
 
     <Chronometer
-        android:id="@+id/chronometerToWedding"
+        android:id="@id/chronometerToWedding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewToWedding"
         android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:gravity="center"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/xlarge_text_size"
         android:visibility="invisible" />
 
@@ -30,13 +31,13 @@
         android:id="@+id/textViewSetDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_marginLeft="@dimen/xsmall_margin"
         android:layout_marginRight="@dimen/xsmall_margin"
-        android:layout_marginTop="@dimen/xlarge_text_size"
+        android:gravity="center"
         android:text="@string/alarm_time_set_to_start_label"
-        android:textColor="@android:color/black"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/large_text_size" />
 
     <Button
