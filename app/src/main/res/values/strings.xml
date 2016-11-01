@@ -3,7 +3,7 @@
 
     <string name="about_label_base">Ustaw datę i godzinę.\nCiesz się odliczaniem do dnia Twojego ślubu!</string>
     <string name="about_label_alarm">Włącz powiadomienia i ciesz się powiadomieniami na pasku zadań, które wskażą datę do Twojego ślubu.\nCodziennie o tej samej porze.</string>
-    <string name="about_application_verion">Wersja aplikacji : 2</string>
+    <string name="about_application_verion">Wersja aplikacji : 2.1</string>
     <string name="about_developer_label">Twórca:</string>
     <string name="about_developer_name">Maciej Krawczyk</string>
     <string name="about_developer_email">mkandrodev@gmail.com</string>

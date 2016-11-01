@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Wedding is in...</string>
 
-    <string name="about_label_base">Set date and tim.\nSee counting down to yours wedding!</string>
+    <string name="about_label_base">Set date and time.\nSee counting down to yours wedding!</string>
     <string name="about_label_alarm">Set alarm and be happy with notifications on your bar. Everyday you will see how many days left to your big day!</string>
-    <string name="about_application_verion">App version : 2</string>
+    <string name="about_application_verion">App version : 2.1</string>
     <string name="about_developer_label">Author:</string>
     <string name="about_developer_name">Maciej Krawczyk</string>
     <string name="about_developer_email">mkandrodev@gmail.com</string>
