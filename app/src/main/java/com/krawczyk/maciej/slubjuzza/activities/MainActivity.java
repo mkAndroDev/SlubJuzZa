@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -100,30 +98,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intentSetDateActivity);
                 break;
             case (R.id.buttonTurnOnAlarm):
-                if (calendarSetTime != null) {
-
-                    if (calendarSetTime.getTimeInMillis() > currentDate.getTimeInMillis()) {
-                        if (!AlarmSettings.isTimeAlarmSet(this)) {
-                            setWeddingAlarm();
-                            Toast.makeText(this, R.string.toast_alarm_turn_on, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(this, R.string.toast_alarm_turned_on, Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(this, R.string.alarm_time_passed, Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(this, R.string.toast_time_or_hour_not_set, Toast.LENGTH_SHORT).show();
-                }
+                onButtonTurnOnAlarmClicked(currentDate);
                 break;
             case (R.id.buttonTurnoffAlarm):
-                if (calendarSetTime != null) {
-                    cancelAlarm();
-                } else {
-                    Toast.makeText(this, R.string.toast_time_or_hour_not_set, Toast.LENGTH_SHORT).show();
-                }
-                Toast.makeText(this, R.string.toast_alarm_turn_off, Toast.LENGTH_SHORT).show();
+                onButtonTurnOffAlarmClicked();
                 break;
+        }
+    }
+
+    private void onButtonTurnOnAlarmClicked(Calendar currentDate) {
+        if (calendarSetTime != null) {
+            if (calendarSetTime.getTimeInMillis() > currentDate.getTimeInMillis()) {
+                if (!AlarmSettings.isTimeAlarmSet(this)) {
+                    setWeddingAlarm();
+                    Toast.makeText(this, R.string.toast_alarm_turn_on, Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, R.string.toast_alarm_turned_on, Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, R.string.alarm_time_passed, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, R.string.toast_time_or_hour_not_set, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void onButtonTurnOffAlarmClicked() {
+        if (calendarSetTime != null) {
+            cancelAlarm();
+        } else {
+            Toast.makeText(this, R.string.toast_time_or_hour_not_set, Toast.LENGTH_SHORT).show();
+        }
+        Toast.makeText(this, R.string.toast_alarm_turn_off, Toast.LENGTH_SHORT).show();
+    }
+
+    private void startChronometer() {
+        final UtilsAndConstants utilsAndConstants = new UtilsAndConstants(getApplicationContext());
+        calendarSetTime = utilsAndConstants.getTimeFromSharedPreferences();
+
+        Calendar currentDate = Calendar.getInstance();
+
+        if (calendarSetTime != null) {
+            if (calendarSetTime.getTimeInMillis() > currentDate.getTimeInMillis()) {
+                setChronometerVisible(true);
+
+                calendarSetTimeInGoodFormat = Calendar.getInstance();
+                calendarSetTimeInGoodFormat.setTimeInMillis(calendarSetTime.getTimeInMillis()
+                        - UtilsAndConstants.MILLISECONDS_IN_HOUR - UtilsAndConstants.MILLISECONDS_IN_DAY);
+
+                chronometerToWedding.setBase(calendarSetTimeInGoodFormat.getTimeInMillis());
+                chronometerToWedding.start();
+
+                chronometerToWedding.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+                    @Override
+                    public void onChronometerTick(Chronometer chronometer) {
+                        Calendar currentDate = Calendar.getInstance();
+                        long toWedding = calendarSetTimeInGoodFormat.getTimeInMillis() - currentDate.getTimeInMillis();
+
+                        if (simpleDateFormatDays.format(toWedding).equals(UtilsAndConstants.ONE_DAY_PATTERN)) {
+                            chronometer.setText(utilsAndConstants.getYearsToWedding(calendarSetTimeInGoodFormat) + "\n" + simpleDateFormatHours.format(toWedding));
+                        } else {
+                            chronometer.setText(utilsAndConstants.getYearsToWedding(calendarSetTimeInGoodFormat) + simpleDateFormatDays.format(toWedding) + " " + getString(R.string.days) + "\n" + simpleDateFormatHours.format(toWedding));
+                        }
+                    }
+                });
+            } else {
+                setChronometerVisible(false);
+            }
         }
     }
 
@@ -154,64 +195,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         alarmMgr.cancel(alarmIntent);
     }
 
-    public static String getYearsToWedding(Calendar setDate) {
-        Calendar currentDate = Calendar.getInstance();
-        long yearToWeddingInMillis = setDate.getTimeInMillis() - currentDate.getTimeInMillis();
-        long yearToWedding = setDate.get(Calendar.YEAR) - currentDate.get(Calendar.YEAR);
-
-        Calendar test = Calendar.getInstance();
-        test.setTimeInMillis(yearToWedding);
-        String yearsToWedding = "";
-
-        if (yearToWedding == 0) {
-            yearsToWedding = "";
-        } else if (yearToWedding == 1 && yearToWeddingInMillis > UtilsAndConstants.MILLISECONDS_IN_YEAR) {
-            yearsToWedding = yearToWedding + " rok ";
-        } else if (yearToWedding >= 2 && yearToWedding <= 4) {
-            yearsToWedding = yearToWedding + " lata ";
-        } else if (yearToWedding >= 5) {
-            yearsToWedding = yearToWedding + " lat ";
-        }
-        return yearsToWedding;
-    }
-
-    private void startChronometer() {
-        UtilsAndConstants utilsAndConstants = new UtilsAndConstants(getApplicationContext());
-        calendarSetTime = utilsAndConstants.getTimeFromSharedPreferences();
-
-        Calendar currentDate = Calendar.getInstance();
-
-        if (calendarSetTime != null) {
-            if (calendarSetTime.getTimeInMillis() > currentDate.getTimeInMillis()) {
-                chronometerToWedding.setVisibility(View.VISIBLE);
-                textViewToWedding.setVisibility(View.VISIBLE);
-                textViewSetDate.setVisibility(View.GONE);
-
-                calendarSetTimeInGoodFormat = Calendar.getInstance();
-                calendarSetTimeInGoodFormat.setTimeInMillis(calendarSetTime.getTimeInMillis()
-                        - UtilsAndConstants.MILLISECONDS_IN_HOUR - UtilsAndConstants.MILLISECONDS_IN_DAY);
-
-                chronometerToWedding.setBase(calendarSetTimeInGoodFormat.getTimeInMillis());
-                chronometerToWedding.start();
-
-                chronometerToWedding.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-                    @Override
-                    public void onChronometerTick(Chronometer chronometer) {
-                        Calendar currentDate = Calendar.getInstance();
-                        long toWedding = calendarSetTimeInGoodFormat.getTimeInMillis() - currentDate.getTimeInMillis();
-
-                        if (simpleDateFormatDays.format(toWedding).equals(UtilsAndConstants.ONE_DAY_PATTERN)) {
-                            chronometer.setText(getYearsToWedding(calendarSetTimeInGoodFormat) + "\n" + simpleDateFormatHours.format(toWedding));
-                        } else {
-                            chronometer.setText(getYearsToWedding(calendarSetTimeInGoodFormat) + simpleDateFormatDays.format(toWedding) + " " + getString(R.string.days) + "\n" + simpleDateFormatHours.format(toWedding));
-                        }
-                    }
-                });
-            } else {
-                chronometerToWedding.setVisibility(View.GONE);
-                textViewToWedding.setVisibility(View.GONE);
-                textViewSetDate.setVisibility(View.VISIBLE);
-            }
-        }
+    private void setChronometerVisible(boolean shouldBeVisible) {
+        chronometerToWedding.setVisibility(shouldBeVisible ? View.VISIBLE : View.GONE);
+        textViewToWedding.setVisibility(shouldBeVisible ? View.VISIBLE : View.GONE);
+        textViewSetDate.setVisibility(!shouldBeVisible ? View.VISIBLE : View.GONE);
     }
 }

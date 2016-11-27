@@ -55,4 +55,25 @@ public class UtilsAndConstants {
         return calendarSavedTime;
     }
 
+    public String getYearsToWedding(Calendar setDate) {
+        Calendar currentDate = Calendar.getInstance();
+        long yearToWeddingInMillis = setDate.getTimeInMillis() - currentDate.getTimeInMillis();
+        long yearToWedding = yearToWeddingInMillis/MILLISECONDS_IN_YEAR;
+
+        Calendar test = Calendar.getInstance();
+        test.setTimeInMillis(yearToWedding);
+        String yearsToWedding = "";
+
+        if (yearToWedding == 0) {
+            yearsToWedding = "";
+        } else if (yearToWedding == 1) {
+            yearsToWedding = yearToWedding + " rok ";
+        } else if (yearToWedding >= 2 && yearToWedding <= 4) {
+            yearsToWedding = yearToWedding + " lata ";
+        } else if (yearToWedding >= 5) {
+            yearsToWedding = yearToWedding + " lat ";
+        }
+        return yearsToWedding;
+    }
+
 }

@@ -51,7 +51,7 @@ public class TimeService extends IntentService {
         String stayDays = simpleDateFormat.format(toWedding);
 
         String toShow;
-        String toShowYear = MainActivity.getYearsToWedding(calendarSavedTime);
+        String toShowYear = utilsAndConstants.getYearsToWedding(calendarSavedTime);
 
         toShow = toShowYear + stayDays + " " + getString(R.string.days) + "!";
 
