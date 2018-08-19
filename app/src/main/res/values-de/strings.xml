@@ -3,7 +3,7 @@
 
     <string name="about_label_base">Datum und Uhrzeit einstellen.\nSehen Sie sich auf Ihre Hochzeit!</string>
     <string name="about_label_alarm">Stellen Sie den Wecker und gerne mit Benachrichtigungen an Ihrer Bar. Jeden Tag werden Sie sehen, wie viele Tage nach links zu Ihrem großen Tag!</string>
-    <string name="about_application_verion">App version : 2.2</string>
+    <string name="about_application_verion">App version : 2.3</string>
     <string name="about_developer_label">Autor:</string>
     <string name="about_developer_name">Maciej Krawczyk</string>
     <string name="about_developer_email">mkandrodev@gmail.com</string>

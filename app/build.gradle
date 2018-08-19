@@ -13,14 +13,14 @@ android {
             keyPassword keystoreProperties['keyPassword']
         }
     }
-    compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.krawczyk.maciej.slubjuzza"
         minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 5
-        versionName "2.2"
+        targetSdkVersion 27
+        versionCode 6
+        versionName "2.3"
     }
     buildTypes {
         release {
@@ -33,5 +33,5 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:appcompat-v7:27.1.1'
 }
